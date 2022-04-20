@@ -5,6 +5,8 @@ class Page(tk.Frame):
         tk.Frame.__init__(self, *args, **kwargs)
         self.pagenum=0
         self.quest=1
+        #custom
+        root.option_add('*font', ('verdana', 12))
         
     def page1(self):
         label=tk.Label(root, text = 'Welcome to Kahoot, Click start to play!')
@@ -14,15 +16,15 @@ class Page(tk.Frame):
 
     def page2(self):
         label=tk.Label(root, text = 'Pertanyaan')
-        button1=tk.Button(root, text = 'To page 1', command = self.changepage)
-        button2=tk.Button(root, text = 'To page 1', command = self.changepage)
-        button3=tk.Button(root, text = 'To page 1', command = self.changepage)        
-        button4=tk.Button(root, text = 'To page 1', command = self.changepage)
-        label.pack(ipadx=10, ipady=10)
-        button1.pack(ipadx=10, ipady=10)
-        button2.pack(ipadx=10, ipady=10)
-        button3.pack(ipadx=10, ipady=10)
-        button4.pack(ipadx=10, ipady=10)
+        button1=tk.Button(root, text = 'A', command = self.changepage)
+        button2=tk.Button(root, text = 'B', command = self.changepage)
+        button3=tk.Button(root, text = 'C', command = self.changepage)        
+        button4=tk.Button(root, text = 'D', command = self.changepage)
+        label.place(relx=0.5, rely=0.1, anchor="center")
+        button1.place(relx=0.1, rely=0.2, anchor="nw")
+        button2.place(relx=0.1, rely=0.3, anchor="nw")
+        button3.place(relx=0.8, rely=0.2, anchor="ne")
+        button4.place(relx=0.8, rely=0.3, anchor="ne")
 
     def changepage(self):
         for widget in root.winfo_children():
