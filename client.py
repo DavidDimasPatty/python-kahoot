@@ -1,16 +1,61 @@
 import tkinter as tk
-
+import socket
 class Page(tk.Frame):
     def __init__(self, *args, **kwargs):
         tk.Frame.__init__(self, *args, **kwargs)
         self.pagenum=0
-        self.quest=1
+        self.quest=0
+        #arrray pertanyaan
+        self.pertanyaan=[]
+        #arrray opsi
+        self.opsi=[]
+        #arrray jawaban
+        self.jawaban=[]
         #custom
         root.option_add('*font', ('verdana', 12))
+        #bacafile
+        ''' self.baca_file() '''
+        ''' print(self.pertanyaan)
+        print(self.opsi)
+        print(self.jawaban) '''      
+        #client connect
+        self.HEADER = 64
+        self.PORT = 5050
+        self.FORMAT = 'utf-8'
+        self.DISCONNECT_MESSAGE = "!DISCONNECT"
+        self.SERVER = socket.gethostbyname(socket.gethostname())
+        self.ADDR = (self.SERVER, self.PORT)
+
+        self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.client.connect(self.ADDR)
+
+    def send(self,msg):
+            message = msg.encode(self.FORMAT)
+            msg_length = len(message)
+            send_length = str(msg_length).encode(self.FORMAT)
+            send_length += b' ' * (self.HEADER - len(send_length))
+            self.client.send(send_length)
+            self.client.send(message)
+            print(self.client.recv(2048).decode(self.FORMAT)) 
+        
+    '''  def baca_file(self):
+     file1 = open('quest.txt', 'r')
+     Lines = file1.readlines()
+     print(len(Lines)) 
+     # Strips the newline character
+     for i in range (0,len(Lines),6):
+         self.pertanyaan.append(Lines[i].strip())
+         self.opsi.append(Lines[i+1].strip())
+         self.opsi.append(Lines[i+2].strip())
+         self.opsi.append(Lines[i+3].strip())
+         self.opsi.append(Lines[i+4].strip())
+         self.jawaban.append(Lines[i+5].strip()) '''
+            
+         
         
     def page1(self):
         label=tk.Label(root, text = 'Welcome to Kahoot, Click start to play!')
-        button=tk.Button(root, text = 'To page 2', command = self.changepage)
+        button=tk.Button(root, text = 'Start', command = self.changepage)
         label.pack(ipadx=10, ipady=10)
         button.pack(ipadx=10, ipady=10)
 
