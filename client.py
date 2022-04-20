@@ -1,57 +1,47 @@
 import tkinter as tk
+
 class Page(tk.Frame):
     def __init__(self, *args, **kwargs):
         tk.Frame.__init__(self, *args, **kwargs)
-    def show(self):
-        self.lift()
+        self.pagenum=0
+        self.quest=1
+        
+    def page1(self):
+        label=tk.Label(root, text = 'Welcome to Kahoot, Click start to play!')
+        button=tk.Button(root, text = 'To page 2', command = self.changepage)
+        label.pack(ipadx=10, ipady=10)
+        button.pack(ipadx=10, ipady=10)
 
-class Page1(Page):
-   def __init__(self, *args, **kwargs):
-       Page.__init__(self, *args, **kwargs)
-       label = tk.Label(self, text="This is page 1")
-       label.pack(side="top", fill="both", expand=True)
+    def page2(self):
+        label=tk.Label(root, text = 'Pertanyaan')
+        button1=tk.Button(root, text = 'To page 1', command = self.changepage)
+        button2=tk.Button(root, text = 'To page 1', command = self.changepage)
+        button3=tk.Button(root, text = 'To page 1', command = self.changepage)        
+        button4=tk.Button(root, text = 'To page 1', command = self.changepage)
+        label.pack(ipadx=10, ipady=10)
+        button1.pack(ipadx=10, ipady=10)
+        button2.pack(ipadx=10, ipady=10)
+        button3.pack(ipadx=10, ipady=10)
+        button4.pack(ipadx=10, ipady=10)
 
-class Page2(Page):
-   def __init__(self, *args, **kwargs):
-       Page.__init__(self, *args, **kwargs)
-       label = tk.Label(self, text="This is page 2")
-       label.pack(side="top", fill="both", expand=True)
-
-class Page3(Page):
-   def __init__(self, *args, **kwargs):
-       Page.__init__(self, *args, **kwargs)
-       label = tk.Label(self, text="This is page 3")
-       label.pack(side="top", fill="both", expand=True)
-
-class MainView(tk.Frame):
-    def __init__(self, *args, **kwargs):
-        tk.Frame.__init__(self, *args, **kwargs)
-        p1 = Page1(self)
-        p2 = Page2(self)
-        p3 = Page3(self)
-
-        buttonframe = tk.Frame(self)
-        container = tk.Frame(self)
-        buttonframe.pack(side="top", fill="x", expand=False)
-        container.pack(side="top", fill="both", expand=True)
-
-        p1.place(in_=container, x=0, y=0, relwidth=1, relheight=1)
-        p2.place(in_=container, x=0, y=0, relwidth=1, relheight=1)
-        p3.place(in_=container, x=0, y=0, relwidth=1, relheight=1)
-
-        b1 = tk.Button(buttonframe, text="Page 1", command=p1.show)
-        b2 = tk.Button(buttonframe, text="Page 2", command=p2.show)
-        b3 = tk.Button(buttonframe, text="Page 3", command=p3.show)
-
-        b1.pack(side="left")
-        b2.pack(side="left")
-        b3.pack(side="left")
-
-        p1.show()
+    def changepage(self):
+        for widget in root.winfo_children():
+            widget.destroy()
+        if self.pagenum == 1:
+            self.page2()
+            self.pagenum = 0
+        elif self.pagenum  == 0:
+            self.page1()
+            self.pagenum = 1
+            
+    
 
 if __name__ == "__main__":
+    pagenum = 1
     root = tk.Tk()
-    main = MainView(root)
-    main.pack(side="top", fill="both", expand=True)
+    pagenum=0
     root.wm_geometry("400x400")
+    root.title("Python Kahoot")
+    main_page=Page(root)
+    main_page.changepage()
     root.mainloop()
