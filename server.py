@@ -15,7 +15,6 @@ class Server(tk.Frame):
         self.ADDR = (self.SERVER, self.PORT)
         self.FORMAT = 'utf-8'
         self.DISCONNECT_MESSAGE = "!DISCONNECT"
-
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.server.bind(self.ADDR)
         #arrray pertanyaan
@@ -31,9 +30,12 @@ class Server(tk.Frame):
         print(self.pertanyaan)
         print(self.opsi)
         print(self.jawaban)  
-        #start server      
-        self.start()
-        
+        #start server    
+        #self.start()
+        self.changepage()
+        threading.Thread(target=self.start,daemon=True).start()
+        root.mainloop()
+                
     def baca_file(self):
      file1 = open('quest.txt', 'r')
      Lines = file1.readlines()
@@ -76,6 +78,7 @@ class Server(tk.Frame):
         elif self.pagenum  == 0:
             self.page1()
             self.pagenum = 1
+        #root.mainloop()
      
     def handle_client(self,conn, addr):
         print(f"[NEW CONNECTION] {addr} connected.")
@@ -103,13 +106,19 @@ class Server(tk.Frame):
     def start(self):
         self.server.listen()
         print(f"[LISTENING] Server is listening on {self.SERVER}") 
+        #buat manggil page
+        #self.changepage()
+        #ngejalanin tkinter
         while True: 
             conn, addr = self.server.accept()
             thread = threading.Thread(target=self.handle_client, args=(conn, addr))
             thread.start()
             print(f"[ACTIVE CONNECTIONS] {threading.active_count() - 1}")
-            self.changepage()
-            root.mainloop()
+            #self.quit()
+              
+    def _quit():
+        root.quit()
+        root.destroy()        
     
 
 
