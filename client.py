@@ -1,3 +1,4 @@
+import time as time
 import tkinter as tk
 import socket
 from ast import literal_eval
@@ -6,6 +7,7 @@ class Page(tk.Frame):
         tk.Frame.__init__(self, *args, **kwargs)
         self.pagenum=0
         self.quest=0
+        self.var= tk.IntVar(self,1)
         self.pagenum=0
         self.quest=0
         self.opsinum=0
@@ -109,6 +111,32 @@ class Page(tk.Frame):
         for widget in root.winfo_children():
             widget.destroy()
         if self.pagenum >=1 and self.pagenum <=10 :
+            label=tk.Label(root, text = 'Get Ready')
+            
+            label1=tk.Label(root, text = '1')
+            label.pack(ipadx=10, ipady=10)
+            label1.pack(ipadx=10, ipady=10)
+            self.waithere()
+            label1.destroy()
+            label1=tk.Label(root, text = '2')
+            label1.pack(ipadx=10, ipady=10)
+            self.waithere()
+            label1.destroy()
+            label1=tk.Label(root, text = '3')
+            label1.pack(ipadx=10, ipady=10)
+            self.waithere()
+            label1.destroy()
+            label1=tk.Label(root, text = '4')
+            label1.pack(ipadx=10, ipady=10)
+            self.waithere()
+            label1.destroy()
+            label1=tk.Label(root, text = '5')
+            label1.pack(ipadx=10, ipady=10)
+            self.waithere()
+            label1.destroy()
+            #time.sleep(5)
+            label.destroy()
+            label1.destroy()
             self.page2()
         elif self.pagenum  == 0:
             self.page1()
@@ -120,7 +148,12 @@ class Page(tk.Frame):
             self.opsinum=0
             self.score=0
         #root.mainloop()
-            
+   
+   #wait 
+    def waithere(self):
+        self.after(1000, self.var.set, 1)
+        print("waiting...")
+        self.wait_variable(self.var)         
     
 
 if __name__ == "__main__":
