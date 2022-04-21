@@ -55,9 +55,10 @@ class Server(tk.Frame):
     #page score       
     def page3(self):
         label=tk.Label(root, text = 'Final Score of you:')
-        label2=tk.Label(root, text = 'Final Score of you:')
-        button=tk.Button(root, text = 'Start', command = self.changepage)
+        label2=tk.Label(root, text = str(self.score*10))
+        button=tk.Button(root, text = 'Go To Home Page', command = self.changepage)
         label.pack(ipadx=10, ipady=10)
+        label2.pack(ipadx=10, ipady=10)
         button.pack(ipadx=10, ipady=10)      
         
     #page welcome    
@@ -68,20 +69,29 @@ class Server(tk.Frame):
         button.pack(ipadx=10, ipady=10)
         self.pagenum=0
       
+     #checkjawaban
+    def checkjawab(self,opsi,jawaban):
+         if opsi==jawaban:
+             self.score=self.score+1 
+         print(self.score)
+         print(jawaban)  
+         print(opsi)       
+     
+      
     #page soal
     def page2(self):
         label=tk.Label(root, text = self.pertanyaan[self.quest])
-        button1=tk.Button(root, text = self.opsi[self.opsinum], command = self.changepage)
-        button2=tk.Button(root, text = self.opsi[self.opsinum+1], command = self.changepage)
-        button3=tk.Button(root, text = self.opsi[self.opsinum+2], command = self.changepage)        
-        button4=tk.Button(root, text = self.opsi[self.opsinum+3], command = self.changepage)
+        button1=tk.Button(root, text = self.opsi[self.opsinum], command =lambda:[self.checkjawab(self.opsi[self.opsinum-4],self.jawaban[self.quest-1]), self.changepage()])
+        button2=tk.Button(root, text = self.opsi[self.opsinum+1], command = lambda:[self.checkjawab(self.opsi[self.opsinum+1-4],self.jawaban[self.quest-1]), self.changepage()])
+        button3=tk.Button(root, text = self.opsi[self.opsinum+2], command = lambda:[self.checkjawab(self.opsi[self.opsinum+2-4],self.jawaban[self.quest-1]), self.changepage()])
+        button4=tk.Button(root, text = self.opsi[self.opsinum+3], command = lambda:[self.checkjawab(self.opsi[self.opsinum+3-4],self.jawaban[self.quest-1]), self.changepage()])
         label.place(relx=0.5, rely=0.1, anchor="center")
         button1.place(relx=0.1, rely=0.2, anchor="nw")
         button2.place(relx=0.1, rely=0.3, anchor="nw")
         button3.place(relx=0.8, rely=0.2, anchor="ne")
         button4.place(relx=0.8, rely=0.3, anchor="ne")
         self.quest=self.quest+1
-        self.opsinum=self.opsinum+3
+        self.opsinum=self.opsinum+4
         self.pagenum=self.pagenum+1
         
 
@@ -89,12 +99,12 @@ class Server(tk.Frame):
     def changepage(self):
         for widget in root.winfo_children():
             widget.destroy()
-        if self.pagenum >=1 and self.pagenum <=9 :
+        if self.pagenum >=1 and self.pagenum <=10 :
             self.page2()
         elif self.pagenum  == 0:
             self.page1()
             self.pagenum = 1
-        elif self.pagenum  == 10:
+        elif self.pagenum  == 11:
             self.page3()
             self.pagenum = 0    
             self.quest=0
