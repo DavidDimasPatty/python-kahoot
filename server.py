@@ -10,6 +10,7 @@ class Server(tk.Frame):
         self.pagenum=0
         self.quest=0
         self.opsinum=0
+        self.score=0
         self.HEADER = 64
         self.PORT = 5050
         self.SERVER = socket.gethostbyname(socket.gethostname())
@@ -51,14 +52,23 @@ class Server(tk.Frame):
          self.jawaban.append(Lines[i+5].strip())
      return Lines
             
-         
+    #page score       
+    def page3(self):
+        label=tk.Label(root, text = 'Final Score of you:')
+        label2=tk.Label(root, text = 'Final Score of you:')
+        button=tk.Button(root, text = 'Start', command = self.changepage)
+        label.pack(ipadx=10, ipady=10)
+        button.pack(ipadx=10, ipady=10)      
         
+    #page welcome    
     def page1(self):
         label=tk.Label(root, text = 'Welcome to Kahoot, Click start to play!')
         button=tk.Button(root, text = 'Start', command = self.changepage)
         label.pack(ipadx=10, ipady=10)
         button.pack(ipadx=10, ipady=10)
-
+        self.pagenum=0
+      
+    #page soal
     def page2(self):
         label=tk.Label(root, text = self.pertanyaan[self.quest])
         button1=tk.Button(root, text = self.opsi[self.opsinum], command = self.changepage)
@@ -73,17 +83,23 @@ class Server(tk.Frame):
         self.quest=self.quest+1
         self.opsinum=self.opsinum+3
         self.pagenum=self.pagenum+1
-        if(self.pagenum==10):
-            self.pagenum=0
+        
 
+    #router
     def changepage(self):
         for widget in root.winfo_children():
             widget.destroy()
-        if self.pagenum ==1 <=9 :
+        if self.pagenum >=1 and self.pagenum <=9 :
             self.page2()
         elif self.pagenum  == 0:
             self.page1()
             self.pagenum = 1
+        elif self.pagenum  == 10:
+            self.page3()
+            self.pagenum = 0    
+            self.quest=0
+            self.opsinum=0
+            self.score=0
         #root.mainloop()
      
     def handle_client(self,conn, addr):

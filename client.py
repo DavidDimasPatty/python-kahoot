@@ -1,10 +1,15 @@
 import tkinter as tk
 import socket
+from ast import literal_eval
 class Page(tk.Frame):
     def __init__(self, *args, **kwargs):
         tk.Frame.__init__(self, *args, **kwargs)
         self.pagenum=0
         self.quest=0
+        self.pagenum=0
+        self.quest=0
+        self.opsinum=0
+        self.score=0
         #arrray pertanyaan
         self.pertanyaan=[]
         #arrray opsi
@@ -61,6 +66,7 @@ class Page(tk.Frame):
 
     def page2(self):
         Lines=self.send("soal")
+        Lines=literal_eval(Lines)
         print(type(Lines))
         print(len(Lines))
         for i in range (0,len(Lines),6):
@@ -80,19 +86,22 @@ class Page(tk.Frame):
         button2.place(relx=0.1, rely=0.3, anchor="nw")
         button3.place(relx=0.8, rely=0.2, anchor="ne")
         button4.place(relx=0.8, rely=0.3, anchor="ne")
-        self.quest=self.quest+1
-        self.opsinum=self.opsinum+3
-        self.pagenum=self.pagenum+1
-        if(self.pagenum==10):
-            self.pagenum=0
+        
+            
+     #check jawaban
+    def check_jawaban(self,jawaban,opsi):
+            if(jawaban==opsi):
+                self.score=+1
+            self.quest=self.quest+1
+            self.opsinum=self.opsinum+3
+            self.pagenum=self.pagenum+1  
             
     def changepage(self):
-        for widget in root.winfo_children():
-            widget.destroy()
-        if self.pagenum == 1:
+         for widget in root.winfo_children():
+                widget.destroy()
+         if self.pagenum >=1 and self.pagenum <=9 :
             self.page2()
-            self.pagenum = 0
-        elif self.pagenum  == 0:
+         elif self.pagenum  == 0:
             self.page1()
             self.pagenum = 1
             
