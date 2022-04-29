@@ -1,3 +1,5 @@
+from asyncio.windows_events import INFINITE
+from cgitb import handler
 import time as time
 import tkinter as tk
 import socket
@@ -8,11 +10,14 @@ class Page(tk.Frame):
         self.pagenum=0
         self.quest=0
         self.var= tk.IntVar(self,1)
+        self.var2= tk.IntVar(self,1)
         self.pagenum=0
         self.quest=0
         self.opsinum=0
         self.score=0
         self.Lines=""
+        self.i=1
+        self.state=True
         #arrray pertanyaan
         self.pertanyaan=[]
         #arrray opsi
@@ -64,7 +69,11 @@ class Page(tk.Frame):
         button=tk.Button(root, text = 'Go To Home Page', command = self.changepage)
         label.pack(ipadx=10, ipady=10)
         label2.pack(ipadx=10, ipady=10)
-        button.pack(ipadx=10, ipady=10)           
+        button.pack(ipadx=10, ipady=10)  
+        self.pagenum = 0    
+        self.quest=0
+        self.opsinum=0
+        self.score=0
          
         
     def page1(self):
@@ -72,6 +81,7 @@ class Page(tk.Frame):
         button=tk.Button(root, text = 'Start', command = self.changepage)
         label.pack(ipadx=10, ipady=10)
         button.pack(ipadx=10, ipady=10)
+        self.pagenum = 1
     
     def get_soal(self):
         self.Lines=self.send("soal")
@@ -83,13 +93,29 @@ class Page(tk.Frame):
             self.opsi.append(self.Lines[i+3].strip())
             self.opsi.append(self.Lines[i+4].strip())
             self.jawaban.append(self.Lines[i+5].strip())
-             
+            
+    def label_waiting(self):       
+            for self.i in range(1,11):
+                if(self.pagenum<1):
+                    break
+                label1=tk.Label(root, text = str(self.i))
+                label1.place(relx=0.5, rely=0.5, anchor="center")
+                self.waithere2()
+                label1.destroy()
+                if(self.i==10):
+                    self.changepage()
+                   
+                    
+                
+                    
+                      
+                   
     def page2(self):
         label=tk.Label(root, text = self.pertanyaan[self.quest])
-        button1=tk.Button(root, text = self.opsi[self.opsinum], command =lambda:[self.checkjawab(self.opsi[self.opsinum-4],self.jawaban[self.quest-1]), self.changepage()])
-        button2=tk.Button(root, text = self.opsi[self.opsinum+1], command = lambda:[self.checkjawab(self.opsi[self.opsinum+1-4],self.jawaban[self.quest-1]), self.changepage()])
-        button3=tk.Button(root, text = self.opsi[self.opsinum+2], command = lambda:[self.checkjawab(self.opsi[self.opsinum+2-4],self.jawaban[self.quest-1]), self.changepage()])
-        button4=tk.Button(root, text = self.opsi[self.opsinum+3], command = lambda:[self.checkjawab(self.opsi[self.opsinum+3-4],self.jawaban[self.quest-1]), self.changepage()])
+        button1=tk.Button(root, text = self.opsi[self.opsinum], command =lambda:[self.checkjawab(self.opsi[self.opsinum-4],self.jawaban[self.quest-1]),self.cancel(),self.changepage()])
+        button2=tk.Button(root, text = self.opsi[self.opsinum+1], command = lambda:[self.checkjawab(self.opsi[self.opsinum+1-4],self.jawaban[self.quest-1]), self.cancel(),self.changepage()])
+        button3=tk.Button(root, text = self.opsi[self.opsinum+2], command = lambda:[self.checkjawab(self.opsi[self.opsinum+2-4],self.jawaban[self.quest-1]), self.cancel(),self.changepage()])
+        button4=tk.Button(root, text = self.opsi[self.opsinum+3], command = lambda:[self.checkjawab(self.opsi[self.opsinum+3-4],self.jawaban[self.quest-1]), self.cancel(),self.changepage()])
         label.place(relx=0.5, rely=0.1, anchor="center")
         button1.place(relx=0.1, rely=0.2, anchor="nw")
         button2.place(relx=0.1, rely=0.3, anchor="nw")
@@ -98,6 +124,7 @@ class Page(tk.Frame):
         self.quest=self.quest+1
         self.opsinum=self.opsinum+4
         self.pagenum=self.pagenum+1
+        self.label_waiting()
                  
      #check jawaban
     def checkjawab(self,opsi,jawaban):
@@ -111,50 +138,43 @@ class Page(tk.Frame):
         for widget in root.winfo_children():
             widget.destroy()
         if self.pagenum >=1 and self.pagenum <=10 :
+            #self.cancel()
             label=tk.Label(root, text = 'Get Ready')
-            
-            label1=tk.Label(root, text = '1')
             label.pack(ipadx=10, ipady=10)
-            label1.pack(ipadx=10, ipady=10)
-            self.waithere()
-            label1.destroy()
-            label1=tk.Label(root, text = '2')
-            label1.pack(ipadx=10, ipady=10)
-            self.waithere()
-            label1.destroy()
-            label1=tk.Label(root, text = '3')
-            label1.pack(ipadx=10, ipady=10)
-            self.waithere()
-            label1.destroy()
-            label1=tk.Label(root, text = '4')
-            label1.pack(ipadx=10, ipady=10)
-            self.waithere()
-            label1.destroy()
-            label1=tk.Label(root, text = '5')
-            label1.pack(ipadx=10, ipady=10)
-            self.waithere()
-            label1.destroy()
-            #time.sleep(5)
-            label.destroy()
-            label1.destroy()
+            #loops for wait
+            for i in range(1,2):
+                if self.state!=False:
+                    label1=tk.Label(root, text = str(i))
+                    label1.pack(ipadx=10, ipady=10)
+                    self.waithere()
+                    label1.destroy()
+            label.destroy()    
             self.page2()
+            #self.label_waiting(True)
         elif self.pagenum  == 0:
             self.page1()
-            self.pagenum = 1
+            
         elif self.pagenum  == 11:
             self.page3()
-            self.pagenum = 0    
-            self.quest=0
-            self.opsinum=0
-            self.score=0
+          
         #root.mainloop()
    
    #wait 
     def waithere(self):
         self.after(1000, self.var.set, 1)
         print("waiting...")
-        self.wait_variable(self.var)         
-    
+        self.wait_variable(self.var)
+        
+    def waithere2(self):
+        self.after(1000, self.var2.set, 1)
+        print("waiting2...")
+        self.wait_variable(self.var2)    
+   #counter wait
+   
+    def cancel(self):
+       self.var2.set('')
+          
+ 
 
 if __name__ == "__main__":
     pagenum = 1
