@@ -98,16 +98,16 @@ class Page(tk.Frame):
             self.jawaban.append(self.Lines[i+5].strip())
             
     def label_waiting(self):
-            for self.i in range(1,3):
+            for self.i in range(1,11):
                 if( self.pagenum<=1):
                     break
-                if( self.pagenum==12):
-                    break
-                label1=tk.Label(root, text = str(self.i))
-                label1.place(relx=0.5, rely=0.5, anchor="center")
-                self.waithere2()
-                label1.destroy()
-                if(self.i==2):
+               
+                elif self.pagenum >=1 and self.pagenum <=11 :
+                    label1=tk.Label(root, text = str(self.i))
+                    label1.place(relx=0.5, rely=0.5, anchor="center")
+                    self.waithere2()
+                    label1.destroy()
+                if(self.i==10):
                      self.changepage()
                      break
                       
@@ -152,7 +152,7 @@ class Page(tk.Frame):
                 label=tk.Label(root, text = 'Get Ready')
                 label.pack(ipadx=10, ipady=10)
                 #loops for wait
-                for i in range(1,2):
+                for i in range(1,6):
                     if self.state!=False:
                         label1=tk.Label(root, text = str(i))
                         label1.pack(ipadx=10, ipady=10)
