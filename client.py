@@ -17,7 +17,6 @@ class Page(tk.Frame):
         self.score=0
         self.Lines=""
         self.i=1
-        self.state=True
         #arrray pertanyaan
         self.pertanyaan=[]
         #arrray opsi
@@ -30,7 +29,8 @@ class Page(tk.Frame):
         ''' self.baca_file() '''
         ''' print(self.pertanyaan)
         print(self.opsi)
-        print(self.jawaban) '''      
+        print(self.jawaban) '''   
+        self.label1=''   
         #client connect
         self.HEADER = 64
         self.PORT = 5050
@@ -73,7 +73,7 @@ class Page(tk.Frame):
         button=tk.Button(root, text = 'Go To Home Page',command =lambda:[self.addpage(0)])
         label.pack(ipadx=10, ipady=10)
         label2.pack(ipadx=10, ipady=10)
-        button.pack(ipadx=10, ipady=10)  
+        button.pack(ipadx=10, ipady=10)
         self.quest=0
         self.opsinum=0
          
@@ -85,7 +85,16 @@ class Page(tk.Frame):
         button.pack(ipadx=10, ipady=10)  
         self.score=0
 
-    
+    ''' # Define a function to start the loop
+    def on_start(self):
+         self.state = True
+
+
+    # Define a function to stop the loop
+        def on_stop(self):
+            self.state =False '''
+
+        
     def get_soal(self):
         self.Lines=self.send("soal")
         self.Lines=literal_eval(self.Lines)
@@ -98,22 +107,23 @@ class Page(tk.Frame):
             self.jawaban.append(self.Lines[i+5].strip())
             
     def label_waiting(self):
-            for self.i in range(1,11):
-                if( self.pagenum<=1):
-                    break
-               
-                elif self.pagenum >=1 and self.pagenum <=11 :
-                    label1=tk.Label(root, text = str(self.i))
-                    label1.place(relx=0.5, rely=0.5, anchor="center")
-                    self.waithere2()
-                    label1.destroy()
-                if(self.i==10):
-                     self.changepage()
-                     break
+                for self.i in range(1,11):
+                    if( self.pagenum<=1):
+                        break
+                
+                    elif self.pagenum >=1 and self.pagenum <=11 :
+                            self.label1=tk.Label(root, text = str(self.i))
+                            self.label1.place(relx=0.5, rely=0.5, anchor="center")
+                            self.waithere2()
+                            self.label1.destroy()
+                            
+                    if(self.i==10):
+                        self.changepage()
+                        break
                       
                    
     def page2(self):
-        print(self.pagenum)  
+        self.on_start()
         label=tk.Label(root, text = self.pertanyaan[self.quest])
         button1=tk.Button(root, text = self.opsi[self.opsinum], command =lambda:[self.checkjawab(self.opsi[self.opsinum-4],self.jawaban[self.quest-1]),self.cancel(),self.changepage()])
         button2=tk.Button(root, text = self.opsi[self.opsinum+1], command = lambda:[self.checkjawab(self.opsi[self.opsinum+1-4],self.jawaban[self.quest-1]), self.cancel(),self.changepage()])
@@ -133,18 +143,18 @@ class Page(tk.Frame):
     def checkjawab(self,opsi,jawaban):
          if opsi==jawaban:
              self.score=self.score+1 
-         print(self.score)        
             
     def changepage(self):
+        print(self.pagenum)
         for widget in root.winfo_children():
             widget.destroy()
         if self.pagenum  == 0:
                 self.page1()
             
-        if self.pagenum  == 11:
+        if self.pagenum  == 12:
             self.page3()
             
-        if self.pagenum >=1 and self.pagenum <=10 :
+        if self.pagenum >=1 and self.pagenum <=11:
             #self.cancel()
                 '''   if self.pagenum==11:
                         self.changepage()
@@ -152,7 +162,7 @@ class Page(tk.Frame):
                 label=tk.Label(root, text = 'Get Ready')
                 label.pack(ipadx=10, ipady=10)
                 #loops for wait
-                for i in range(1,6):
+                for i in range(1,2):
                     if self.state!=False:
                         label1=tk.Label(root, text = str(i))
                         label1.pack(ipadx=10, ipady=10)
