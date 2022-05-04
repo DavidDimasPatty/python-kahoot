@@ -50,6 +50,12 @@ class Server(tk.Frame):
          self.opsi.append(Lines[i+3].strip())
          self.opsi.append(Lines[i+4].strip())
          self.jawaban.append(Lines[i+5].strip())
+     ''' self.pertanyaan.append("batas")
+     self.opsi.append("batas")
+     self.opsi.append("batas")
+     self.opsi.append("batas")
+     self.opsi.append("batas")
+     self.jawaban.append("batas") '''
      return Lines
             
     #page score       

@@ -123,7 +123,6 @@ class Page(tk.Frame):
                       
                    
     def page2(self):
-        self.on_start()
         label=tk.Label(root, text = self.pertanyaan[self.quest])
         button1=tk.Button(root, text = self.opsi[self.opsinum], command =lambda:[self.checkjawab(self.opsi[self.opsinum-4],self.jawaban[self.quest-1]),self.cancel(),self.changepage()])
         button2=tk.Button(root, text = self.opsi[self.opsinum+1], command = lambda:[self.checkjawab(self.opsi[self.opsinum+1-4],self.jawaban[self.quest-1]), self.cancel(),self.changepage()])
@@ -155,15 +154,18 @@ class Page(tk.Frame):
             self.page3()
             
         if self.pagenum >=1 and self.pagenum <=11:
-            #self.cancel()
+                #self.cancel()
                 '''   if self.pagenum==11:
                         self.changepage()
                     else: '''
                 label=tk.Label(root, text = 'Get Ready')
+                z=6
+                if(self.pagenum==11):
+                    label=tk.Label(root, text = 'Calculate Score')
+                    z=4
                 label.pack(ipadx=10, ipady=10)
                 #loops for wait
-                for i in range(1,2):
-                    if self.state!=False:
+                for i in range(1,z):
                         label1=tk.Label(root, text = str(i))
                         label1.pack(ipadx=10, ipady=10)
                         self.waithere()
