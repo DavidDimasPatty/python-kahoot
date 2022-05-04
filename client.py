@@ -63,25 +63,28 @@ class Page(tk.Frame):
          self.opsi.append(Lines[i+3].strip())
          self.opsi.append(Lines[i+4].strip())
          self.jawaban.append(Lines[i+5].strip()) '''
+    def addpage(self,page):
+        self.pagenum=page
+        self.changepage()
+    
     def page3(self):
         label=tk.Label(root, text = 'Final Score of you:')
         label2=tk.Label(root, text = str(self.score*10))
-        button=tk.Button(root, text = 'Go To Home Page', command = self.changepage)
+        button=tk.Button(root, text = 'Go To Home Page',command =lambda:[self.addpage(0)])
         label.pack(ipadx=10, ipady=10)
         label2.pack(ipadx=10, ipady=10)
         button.pack(ipadx=10, ipady=10)  
-        self.pagenum = 0    
         self.quest=0
         self.opsinum=0
-        self.score=0
          
         
     def page1(self):
         label=tk.Label(root, text = 'Welcome to Kahoot, Click start to play!')
-        button=tk.Button(root, text = 'Start', command = self.changepage)
+        button=tk.Button(root, text = 'Start', command =lambda:[self.addpage(1)])
         label.pack(ipadx=10, ipady=10)
-        button.pack(ipadx=10, ipady=10)
-        self.pagenum = 1
+        button.pack(ipadx=10, ipady=10)  
+        self.score=0
+
     
     def get_soal(self):
         self.Lines=self.send("soal")
@@ -94,23 +97,23 @@ class Page(tk.Frame):
             self.opsi.append(self.Lines[i+4].strip())
             self.jawaban.append(self.Lines[i+5].strip())
             
-    def label_waiting(self):       
-            for self.i in range(1,11):
-                if(self.pagenum<1):
+    def label_waiting(self):
+            for self.i in range(1,3):
+                if( self.pagenum<=1):
+                    break
+                if( self.pagenum==12):
                     break
                 label1=tk.Label(root, text = str(self.i))
                 label1.place(relx=0.5, rely=0.5, anchor="center")
                 self.waithere2()
                 label1.destroy()
-                if(self.i==10):
-                    self.changepage()
-                   
-                    
-                
-                    
+                if(self.i==2):
+                     self.changepage()
+                     break
                       
                    
     def page2(self):
+        print(self.pagenum)  
         label=tk.Label(root, text = self.pertanyaan[self.quest])
         button1=tk.Button(root, text = self.opsi[self.opsinum], command =lambda:[self.checkjawab(self.opsi[self.opsinum-4],self.jawaban[self.quest-1]),self.cancel(),self.changepage()])
         button2=tk.Button(root, text = self.opsi[self.opsinum+1], command = lambda:[self.checkjawab(self.opsi[self.opsinum+1-4],self.jawaban[self.quest-1]), self.cancel(),self.changepage()])
@@ -125,39 +128,42 @@ class Page(tk.Frame):
         self.opsinum=self.opsinum+4
         self.pagenum=self.pagenum+1
         self.label_waiting()
-                 
+            
      #check jawaban
     def checkjawab(self,opsi,jawaban):
          if opsi==jawaban:
              self.score=self.score+1 
-         print(self.score)
-         print(jawaban)  
-         print(opsi)         
+         print(self.score)        
             
     def changepage(self):
         for widget in root.winfo_children():
             widget.destroy()
+        if self.pagenum  == 0:
+                self.page1()
+            
+        if self.pagenum  == 11:
+            self.page3()
+            
         if self.pagenum >=1 and self.pagenum <=10 :
             #self.cancel()
-            label=tk.Label(root, text = 'Get Ready')
-            label.pack(ipadx=10, ipady=10)
-            #loops for wait
-            for i in range(1,2):
-                if self.state!=False:
-                    label1=tk.Label(root, text = str(i))
-                    label1.pack(ipadx=10, ipady=10)
-                    self.waithere()
-                    label1.destroy()
-            label.destroy()    
-            self.page2()
-            #self.label_waiting(True)
-        elif self.pagenum  == 0:
-            self.page1()
+                '''   if self.pagenum==11:
+                        self.changepage()
+                    else: '''
+                label=tk.Label(root, text = 'Get Ready')
+                label.pack(ipadx=10, ipady=10)
+                #loops for wait
+                for i in range(1,2):
+                    if self.state!=False:
+                        label1=tk.Label(root, text = str(i))
+                        label1.pack(ipadx=10, ipady=10)
+                        self.waithere()
+                        label1.destroy()
+                label.destroy()    
+                self.page2()
+                #self.label_waiting(True)
+        
             
-        elif self.pagenum  == 11:
-            self.page3()
-          
-        #root.mainloop()
+            #root.mainloop()
    
    #wait 
     def waithere(self):
@@ -166,13 +172,14 @@ class Page(tk.Frame):
         self.wait_variable(self.var)
         
     def waithere2(self):
-        self.after(1000, self.var2.set, 1)
+        var2= tk.IntVar(self,0)
+        self.after(1000, var2.set, 1)
         print("waiting2...")
-        self.wait_variable(self.var2)    
+        self.wait_variable(var2)    
    #counter wait
    
     def cancel(self):
-       self.var2.set('')
+       self.after_cancel(self)
           
  
 
