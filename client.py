@@ -4,6 +4,7 @@ import time as time
 import tkinter as tk
 import socket
 from ast import literal_eval
+from turtle import color
 class Page(tk.Frame):
     def __init__(self, *args, **kwargs):
         tk.Frame.__init__(self, *args, **kwargs)
@@ -80,6 +81,9 @@ class Page(tk.Frame):
             label3=tk.Label(root, text = 'Wait for server...')
             label2=tk.Label(root, text = str(self.score*10))
             button=tk.Button(root, text = 'Go To Home Page',state="disabled")
+            label. config(bg="#CCF3EE")
+            label2. config(bg="#CCF3EE")
+            label3. config(bg="#CCF3EE")
             label.pack(ipadx=10, ipady=10)
             label2.pack(ipadx=10, ipady=10)
             button.pack(ipadx=10, ipady=10)
@@ -90,6 +94,9 @@ class Page(tk.Frame):
             label3=tk.Label(root, text = 'Server Score:')
             label2=tk.Label(root, text = str(self.score*10))
             button=tk.Button(root, text = 'Go To Home Page',command =lambda:[self.addpage(0)])
+            label. config(bg="#CCF3EE")
+            label2. config(bg="#CCF3EE")
+            label3. config(bg="#CCF3EE")
             label.pack(ipadx=10, ipady=10)
             label2.pack(ipadx=10, ipady=10)
             button.pack(ipadx=10, ipady=10)
@@ -106,12 +113,13 @@ class Page(tk.Frame):
     def page1(self):
         first_send=self.send('log_client')
         label=tk.Label(root, text = 'Welcome to Kahoot, Click start to play!')
+        label. config(bg="#CCF3EE")
         button=tk.Button(root, text = 'Start', command =lambda:[self.addpage(1)])
         label.pack(ipadx=10, ipady=10)
         button.pack(ipadx=10, ipady=10)  
         self.score=0
         self.server_done="False"
-
+        
     ''' # Define a function to start the loop
     def on_start(self):
          self.state = True
@@ -145,6 +153,7 @@ class Page(tk.Frame):
                 
                     elif self.pagenum >=1 and self.pagenum <=10 :
                             self.label1=tk.Label(root, text = str(self.i))
+                            self.label1. config(bg="#CCF3EE")
                             self.label1.place(relx=0.5, rely=0.5, anchor="center")
                             self.waithere2()
                             self.label1.destroy()
@@ -161,6 +170,7 @@ class Page(tk.Frame):
         button2=tk.Button(root, text = self.opsi[self.opsinum+1], command = lambda:[self.checkjawab(self.opsi[self.opsinum+1-4],self.jawaban[self.quest-1]), self.cancel(),self.changepage()])
         button3=tk.Button(root, text = self.opsi[self.opsinum+2], command = lambda:[self.checkjawab(self.opsi[self.opsinum+2-4],self.jawaban[self.quest-1]), self.cancel(),self.changepage()])
         button4=tk.Button(root, text = self.opsi[self.opsinum+3], command = lambda:[self.checkjawab(self.opsi[self.opsinum+3-4],self.jawaban[self.quest-1]), self.cancel(),self.changepage()])
+        label. config(bg="#CCF3EE")
         label.place(relx=0.5, rely=0.1, anchor="center")
         button1.place(relx=0.1, rely=0.2, anchor="nw")
         button2.place(relx=0.1, rely=0.3, anchor="nw")
@@ -195,15 +205,18 @@ class Page(tk.Frame):
                         self.changepage()
                     else: '''
                 label=tk.Label(root, text = 'Get Ready')
-                z=2
+                label. config(bg="#CCF3EE")
+                z=6
                 if(self.pagenum==11):
                     self.server_done=self.send("score:"+str(self.score*10))
                     label=tk.Label(root, text = 'Calculate Score')
+                    label. config(bg="#CCF3EE")
                     z=4
                 label.pack(ipadx=10, ipady=10)
                 #loops for wait
                 for i in range(1,z):
                         label1=tk.Label(root, text = str(i))
+                        label1. config(bg="#CCF3EE")
                         label1.pack(ipadx=10, ipady=10)
                         self.waithere()
                         label1.destroy()
@@ -238,6 +251,7 @@ if __name__ == "__main__":
     pagenum=0
     root.wm_geometry("400x400")
     root.title("Python Kahoot")
+    root.configure(background='#CCF3EE')
     main_page=Page(root)
     main_page.changepage()
     root.mainloop()

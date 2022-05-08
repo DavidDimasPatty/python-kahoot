@@ -78,7 +78,10 @@ class Server(tk.Frame):
         if self.client_done==True:
             label3=tk.Label(root, text = 'Score Client: '+ str(self.score_client))
             label=tk.Label(root, text = 'Final Score of you:')
+            label. config(bg="#CCF3EE")
+            label3. config(bg="#CCF3EE")
             label2=tk.Label(root, text = str(self.score*10))
+            label2. config(bg="#CCF3EE")
             button=tk.Button(root, text = 'Go To Home Page',command =lambda:[self.addpage(0)])
             label.pack(ipadx=10, ipady=10)
             label2.pack(ipadx=10, ipady=10)
@@ -89,7 +92,10 @@ class Server(tk.Frame):
         else:    
             label3=tk.Label(root, text = "Wait for client...")
             label=tk.Label(root, text = 'Final Score of you:')
+            label. config(bg="#CCF3EE")
             label2=tk.Label(root, text = str(self.score*10))
+            label3. config(bg="#CCF3EE")
+            label2. config(bg="#CCF3EE")
             button=tk.Button(root, text = 'Go To Home Page',state="disabled")
             label.pack(ipadx=10, ipady=10)
             label2.pack(ipadx=10, ipady=10)
@@ -102,13 +108,16 @@ class Server(tk.Frame):
         self.server_done=False
         if self.state==False:
             label=tk.Label(root, text = 'Welcome to Kahoot, Click start to play!')
+            label. config(bg="#CCF3EE")
             label2=tk.Label(root, text = 'WAIT FOR CLIENT TO CONNECT')
+            label2. config(bg="#CCF3EE")
             button=tk.Button(root, text = 'Start', state="disabled")
             label.pack(ipadx=10, ipady=10)
             button.pack(ipadx=10, ipady=10)
             label2.pack(ipadx=10, ipady=10)
         else:
             label=tk.Label(root, text = 'Welcome to Kahoot, Click start to play!')
+            label. config(bg="#CCF3EE")
             button=tk.Button(root, text = 'Start', command =lambda:[self.addpage(1)])
             label.pack(ipadx=10, ipady=10)
             button.pack(ipadx=10, ipady=10)  
@@ -127,6 +136,7 @@ class Server(tk.Frame):
                 
                     elif self.pagenum >=1 and self.pagenum <=11 :
                             self.label1=tk.Label(root, text = str(self.i))
+                            self.label1. config(bg="#CCF3EE")
                             self.label1.place(relx=0.5, rely=0.5, anchor="center")
                             self.waithere2()
                             self.label1.destroy()
@@ -137,6 +147,7 @@ class Server(tk.Frame):
     #page soal
     def page2(self):
         label=tk.Label(root, text = self.pertanyaan[self.quest])
+        label. config(bg="#CCF3EE")
         button1=tk.Button(root, text = self.opsi[self.opsinum], command =lambda:[self.checkjawab(self.opsi[self.opsinum-4],self.jawaban[self.quest-1]),self.cancel(),self.changepage()])
         button2=tk.Button(root, text = self.opsi[self.opsinum+1], command = lambda:[self.checkjawab(self.opsi[self.opsinum+1-4],self.jawaban[self.quest-1]), self.cancel(),self.changepage()])
         button3=tk.Button(root, text = self.opsi[self.opsinum+2], command = lambda:[self.checkjawab(self.opsi[self.opsinum+2-4],self.jawaban[self.quest-1]), self.cancel(),self.changepage()])
@@ -158,6 +169,7 @@ class Server(tk.Frame):
         for widget in root.winfo_children():
             widget.destroy()
         if self.pagenum  == 0:
+                self.client_done==False
                 self.page1()
             
         if self.pagenum  == 12:
@@ -169,9 +181,11 @@ class Server(tk.Frame):
                         self.changepage()
                     else: '''
                 label=tk.Label(root, text = 'Get Ready')
-                z=2
+                label. config(bg="#CCF3EE")
+                z=6
                 if(self.pagenum==11):
                     label=tk.Label(root, text = 'Calculate Score')
+                    label. config(bg="#CCF3EE")
                     z=4
                 label.pack(ipadx=10, ipady=10)
                 #loops for wait
@@ -288,4 +302,5 @@ if __name__ == "__main__":
     pagenum=0
     root.wm_geometry("400x400")
     root.title("Python Kahoot Server")
+    root.configure(background='#CCF3EE')
     Server(root)
