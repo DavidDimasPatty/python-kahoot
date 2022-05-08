@@ -16,6 +16,7 @@ class Page(tk.Frame):
         self.opsinum=0
         self.score=0
         self.Lines=""
+        self.server_done="False"
         self.i=1
         #arrray pertanyaan
         self.pertanyaan=[]
@@ -67,23 +68,49 @@ class Page(tk.Frame):
         self.pagenum=page
         self.changepage()
     
+    def check_server(self):
+        print(self.server_done)
+        self.server_done=self.send("score:"+str(self.score*10))
+        if(self.server_done!="False"):
+            self.changepage()
+    
     def page3(self):
-        label=tk.Label(root, text = 'Final Score of you:')
-        label2=tk.Label(root, text = str(self.score*10))
-        button=tk.Button(root, text = 'Go To Home Page',command =lambda:[self.addpage(0)])
-        label.pack(ipadx=10, ipady=10)
-        label2.pack(ipadx=10, ipady=10)
-        button.pack(ipadx=10, ipady=10)
+        if self.server_done=="False":
+            label=tk.Label(root, text = 'Final Score of you:')
+            label3=tk.Label(root, text = 'Wait for server...')
+            label2=tk.Label(root, text = str(self.score*10))
+            button=tk.Button(root, text = 'Go To Home Page',state="disabled")
+            label.pack(ipadx=10, ipady=10)
+            label2.pack(ipadx=10, ipady=10)
+            button.pack(ipadx=10, ipady=10)
+            label3.pack(ipadx=10, ipady=10)
+           
+        elif self.server_done!="False":   
+            label=tk.Label(root, text = 'Final Score of you:')
+            label3=tk.Label(root, text = 'Server Score:')
+            label2=tk.Label(root, text = str(self.score*10))
+            button=tk.Button(root, text = 'Go To Home Page',command =lambda:[self.addpage(0)])
+            label.pack(ipadx=10, ipady=10)
+            label2.pack(ipadx=10, ipady=10)
+            button.pack(ipadx=10, ipady=10)
+            label3.pack(ipadx=10, ipady=10)
+            #self.server_done=self.send("score:"+str(self.score*10))
         self.quest=0
         self.opsinum=0
-         
+        ''' while self.server_done=="False":
+            time.sleep(1)
+            self.server_done=self.send("score:"+str(self.score*10))
+            print(self.server_done) '''
+    
         
     def page1(self):
+        first_send=self.send('log_client')
         label=tk.Label(root, text = 'Welcome to Kahoot, Click start to play!')
         button=tk.Button(root, text = 'Start', command =lambda:[self.addpage(1)])
         label.pack(ipadx=10, ipady=10)
         button.pack(ipadx=10, ipady=10)  
         self.score=0
+        self.server_done="False"
 
     ''' # Define a function to start the loop
     def on_start(self):
@@ -107,19 +134,25 @@ class Page(tk.Frame):
             self.jawaban.append(self.Lines[i+5].strip())
             
     def label_waiting(self):
+                print("masuk")
                 for self.i in range(1,11):
-                    if( self.pagenum<=1):
+                    if self.pagenum==11 or self.pagenum==12  :
+                        break
+                    print("masuk2")
+                    print(self.pagenum)
+                    if( self.pagenum<1):
                         break
                 
-                    elif self.pagenum >=1 and self.pagenum <=11 :
+                    elif self.pagenum >=1 and self.pagenum <=10 :
                             self.label1=tk.Label(root, text = str(self.i))
                             self.label1.place(relx=0.5, rely=0.5, anchor="center")
                             self.waithere2()
                             self.label1.destroy()
-                            
                     if(self.i==10):
                         self.changepage()
                         break
+                                   
+                   
                       
                    
     def page2(self):
@@ -150,17 +183,21 @@ class Page(tk.Frame):
         if self.pagenum  == 0:
                 self.page1()
             
-        if self.pagenum  == 12:
+        elif self.pagenum  == 11:
             self.page3()
-            
-        if self.pagenum >=1 and self.pagenum <=11:
+            self.update()
+            while self.server_done=="False":
+                self.after(1000, self.check_server())
+                self.update()  
+        elif self.pagenum >=1 and self.pagenum <=10:
                 #self.cancel()
                 '''   if self.pagenum==11:
                         self.changepage()
                     else: '''
                 label=tk.Label(root, text = 'Get Ready')
-                z=6
+                z=2
                 if(self.pagenum==11):
+                    self.server_done=self.send("score:"+str(self.score*10))
                     label=tk.Label(root, text = 'Calculate Score')
                     z=4
                 label.pack(ipadx=10, ipady=10)
