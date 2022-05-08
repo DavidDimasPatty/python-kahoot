@@ -106,6 +106,7 @@ class Server(tk.Frame):
         
     def page1(self):
         self.server_done=False
+        self.client_done=False
         if self.state==False:
             label=tk.Label(root, text = 'Welcome to Kahoot, Click start to play!')
             label. config(bg="#CCF3EE")
@@ -191,6 +192,7 @@ class Server(tk.Frame):
                 #loops for wait
                 for i in range(1,z):
                         label1=tk.Label(root, text = str(i))
+                        label1. config(bg="#CCF3EE")
                         label1.pack(ipadx=10, ipady=10)
                         self.waithere()
                         label1.destroy()

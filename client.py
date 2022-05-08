@@ -19,6 +19,7 @@ class Page(tk.Frame):
         self.Lines=""
         self.server_done="False"
         self.i=1
+        
         #arrray pertanyaan
         self.pertanyaan=[]
         #arrray opsi
@@ -33,6 +34,7 @@ class Page(tk.Frame):
         print(self.opsi)
         print(self.jawaban) '''   
         self.label1=''   
+        
         #client connect
         self.HEADER = 64
         self.PORT = 5050
@@ -42,6 +44,9 @@ class Page(tk.Frame):
         self.ADDR = (self.SERVER, self.PORT)
         self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.client.connect(self.ADDR)
+        #############
+        
+        #dapetin soal
         self.get_soal()
 
     def send(self,msg):
@@ -140,6 +145,7 @@ class Page(tk.Frame):
             self.opsi.append(self.Lines[i+3].strip())
             self.opsi.append(self.Lines[i+4].strip())
             self.jawaban.append(self.Lines[i+5].strip())
+
             
     def label_waiting(self):
                 print("masuk")
