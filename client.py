@@ -97,15 +97,18 @@ class Page(tk.Frame):
         elif self.server_done!="False":   
             label=tk.Label(root, text = 'Final Score of you:')
             label3=tk.Label(root, text = 'Server Score:')
+            label4=tk.Label(root, text = self.server_done)
             label2=tk.Label(root, text = str(self.score*10))
             button=tk.Button(root, text = 'Go To Home Page',command =lambda:[self.addpage(0)])
             label. config(bg="#CCF3EE")
             label2. config(bg="#CCF3EE")
             label3. config(bg="#CCF3EE")
+            label4. config(bg="#CCF3EE")
             label.pack(ipadx=10, ipady=10)
             label2.pack(ipadx=10, ipady=10)
             button.pack(ipadx=10, ipady=10)
             label3.pack(ipadx=10, ipady=10)
+            label4.pack(ipadx=10, ipady=10)
             #self.server_done=self.send("score:"+str(self.score*10))
         self.quest=0
         self.opsinum=0
